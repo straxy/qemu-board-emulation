@@ -1,0 +1,8 @@
+env.sh
+*.tar.*
+*.img
+linux/
+u-boot/
+qemu/
+gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/
+ubuntu-20.04.3-minimal-armhf-2021-12-20/
