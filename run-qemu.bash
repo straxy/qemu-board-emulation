@@ -16,7 +16,7 @@ function run_qemu
       -m 1G \
       -kernel ${UBOOT} \
       -drive file=sd.img,format=raw,if=sd \
-      -nographic \
+      -serial mon:stdio \
       -net nic \
       -net tap,ifname=qemu-tap0,script=no,downscript=no
 }
