@@ -1,5 +1,5 @@
 # Helper scripts
-Supporting files for QEMU Board emulation post series at [straxy.blogspot.com](https://straxy.blogspot.com/).
+Supporting files for QEMU Board emulation post series at [www.mistrasolutions.com](https://www.mistrasolutions.com/).
 
 Following scripts are present:
 
@@ -9,5 +9,4 @@ Following scripts are present:
 - `mount-sd-card.bash` - mounts rootfs partition of the SD card
 - `umount-sd-card.bash` - umounts rootfs partition of the SD card
 - `run-qemu.bash` - runs QEMU instance
-
 

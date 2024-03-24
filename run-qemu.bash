@@ -12,9 +12,8 @@ function run_qemu
 {
    echo "Starting QEMU"
    qemu-system-arm \
-      -machine vexpress-a9 \
+      -machine cubieboard \
       -m 1G \
-      -kernel ${UBOOT} \
       -drive file=sd.img,format=raw,if=sd \
       -serial mon:stdio \
       -net nic \
