@@ -132,7 +132,7 @@ EOF
     sudo kpartx -d $PROJDIR_PATH/$SD_FILE
 
     # Copy U-Boot
-    dd if=$UBOOT_SPL of=$SD_IMG bs=1024 seek=8 conv=notrunc
+    dd if=$UBOOT_SPL of=$SD_FILE bs=1024 seek=8 conv=notrunc
 
     echo "                     ... done"
 }
