@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QEMU_VER=8.2.2
+QEMU_VER=9.0.0
 TOOLCHAIN_VER=13.2.rel1
 UBOOT_VER=2024.01
 LINUX_VER=6.8.1
@@ -24,7 +24,7 @@ function check_existing
         rm -rf ${PROJDIR_PATH}/qemu
         rm -rf ${PROJDIR_PATH}/u-boot
         rm -rf ${PROJDIR_PATH}/linux
-        rm -rf ${PROJDIR_PATH}/gcc-arm-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf
+        rm -rf ${PROJDIR_PATH}/toolchain
         rm -rf $ENVFILE
     else
         if [ -f $ENVFILE ]; then
@@ -94,13 +94,14 @@ function get_toolchain
 {
     echo "Getting toolchain ..."
     wget -c https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VER}/binrel/arm-gnu-toolchain-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf.tar.xz
-    tar xf arm-gnu-toolchain-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf.tar.xz
+    mkdir -p toolchain
+    tar xf arm-gnu-toolchain-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf.tar.xz -C toolchain --strip-components=1
 
-    export PATH=${PWD}/arm-gnu-toolchain-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf/bin:$PATH
+    export PATH=${PWD}/toolchain/bin:$PATH
 
     # Update env.sh
 tee -a ${PROJDIR_PATH}/${ENVFILE} << EOF
-export PATH=\${PROJDIR_PATH}/arm-gnu-toolchain-${TOOLCHAIN_VER}-x86_64-arm-none-linux-gnueabihf/bin:\$PATH
+export PATH=\${PROJDIR_PATH}/toolchain/bin:\$PATH
 EOF
     echo "                  ... done"
 }
