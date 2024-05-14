@@ -30,6 +30,7 @@ EOF
     sudo tee -a ${ROOTFS_TMP}/startup.sh << "EOF"
 # Prepare image
 apt update
+DEBIAN_FRONTEND="noninteractive" TZ="Europe/Stockholm" apt install -y tzdata
 apt install -y --no-install-recommends \
     systemd \
     dbus \
@@ -73,7 +74,7 @@ EOF
     sudo umount ${ROOTFS_TMP}/dev
 
     # Archive
-    sudo tar cJvfp ubuntu-minimal-22.04.tar.xz -C ${ROOTFS_TMP} .
+    sudo tar cJvfp ubuntu-minimal-24.04.tar.xz -C ${ROOTFS_TMP} .
 }
 
 function prepare_sd_image
@@ -120,7 +121,7 @@ EOF
     # Copy rootfs files
     sudo mkdir -p $ROOT_MNT
     sudo mount /dev/mapper/${loop_nr}p2 $ROOT_MNT
-    sudo tar xfvp ubuntu-minimal-22.04.tar.xz -C $ROOT_MNT
+    sudo tar xfvp ubuntu-minimal-24.04.tar.xz -C $ROOT_MNT
 
     # Copy kernel modules
     pushd ${PROJDIR_PATH}/linux/build_cubieboard
