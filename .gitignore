@@ -5,4 +5,4 @@ boot.*
 linux/
 u-boot/
 qemu/
-arm-gnu-toolchain-*/
+toolchain/
