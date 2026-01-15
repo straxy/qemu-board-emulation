@@ -1,10 +1,10 @@
 #!/bin/bash
 
-QEMU_VER=9.1.1
-TOOLCHAIN_VER=13.3.rel1
-UBOOT_VER=2024.10
-LINUX_VER=6.11.8
-UBUNTU_VER=24.04.1
+QEMU_VER=10.2.0
+TOOLCHAIN_VER=15.2.rel1
+UBOOT_VER=2026.01
+LINUX_VER=6.18.7
+UBUNTU_VER=24.04.3
 NR_PROC=8
 
 # Global definitions
@@ -50,7 +50,8 @@ function build_qemu {
     flex bison libgmp3-dev libmpc-dev device-tree-compiler u-boot-tools \
     bc git libncurses5-dev lzop make tftpd-hpa uml-utilities \
     nfs-kernel-server swig ninja-build libusb-1.0-0-dev python3-venv \
-    python3-setuptools python3-dev fdisk libgnutls28-dev iptables dosfstools
+    python3-setuptools python3-dev fdisk libgnutls28-dev iptables \
+    dosfstools bzip2
   echo "                         ... done"
 
   echo "Downloading QEMU ..."
@@ -71,7 +72,7 @@ function build_qemu {
     --audio-drv-list=alsa
   make -j${NR_PROC}
 
-  export PATH=${PWD}/arm-softmmu:$PWD:$PATH
+  export PATH=$PWD:$PATH
 
   # Update env.sh
   tee ${PROJDIR_PATH}/${ENVFILE} <<EOF
@@ -79,11 +80,10 @@ function build_qemu {
 export PROJDIR_PATH=${PROJDIR_PATH}
 
 # build defines
-export QEMU_PATH=${PWD}/arm-softmmu
-export QEMU_TOOLS_PATH=${PWD}
+export QEMU_PATH=${PWD}
 
 # PATH update
-export PATH=\${QEMU_PATH}:\${QEMU_TOOLS_PATH}:\$PATH
+export PATH=\${QEMU_PATH}:\$PATH
 EOF
   popd
   popd
