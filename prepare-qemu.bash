@@ -3,7 +3,7 @@
 # Global definitions
 ENVFILE=env.sh
 SD_FILE=sd.img
-ROOTFS_TMP=/run/tmp/rootfs
+ROOTFS_TMP=ubuntu
 BOOT_MNT=/run/mount/boot
 ROOT_MNT=/run/mount/rootfs
 
@@ -19,9 +19,9 @@ function make_rootfs {
 
   # Configure binfmt_misc
   if [ ! -f /proc/sys/fs/binfmt_misc/qemu-arm ]; then
-    sudo sh ${QEMU_PATH}/../../scripts/qemu-binfmt-conf.sh
-    sudo cp $(which qemu-arm-static) ${ROOTFS_TMP}/usr/local/bin/qemu-arm
+    sudo sh ${QEMU_PATH}/scripts/qemu-binfmt-conf.sh
   fi
+  sudo cp $(which qemu-arm-static) ${ROOTFS_TMP}$(which qemu-arm-static)
 
   # Prepare chroot
   sudo tee -a ${ROOTFS_TMP}/etc/resolv.conf <<"EOF"
