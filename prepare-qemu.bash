@@ -13,7 +13,6 @@ if [ $(id -u) -eq 0 ]; then
 fi
 
 function make_rootfs {
-  sudo apt install -y qemu-user-static binfmt-support
   sudo mkdir -p $ROOTFS_TMP
   sudo tar xzvf $UBUNTU_BASE -C $ROOTFS_TMP
 

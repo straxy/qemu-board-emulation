@@ -38,20 +38,38 @@ function check_existing {
 function build_qemu {
   echo "Installing prerequisites ..."
   # Installing prerequisites
-  sudo apt -y install git libglib2.0-dev libfdt-dev libpixman-1-dev \
-    zlib1g-dev libnfs-dev libiscsi-dev git-email libaio-dev \
-    libbluetooth-dev libbrlapi-dev libbz2-dev libcap-dev \
-    libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev \
-    libjpeg8-dev libncurses5-dev libnuma-dev librbd-dev \
-    librdmacm-dev libsasl2-dev libsdl2-dev libseccomp-dev \
-    libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
-    libxen-dev liblzo2-dev valgrind xfslibs-dev kpartx libssl-dev \
-    net-tools python3-sphinx python3-sphinx-rtd-theme libsdl2-image-dev \
-    flex bison libgmp3-dev libmpc-dev device-tree-compiler u-boot-tools \
-    bc git libncurses5-dev lzop make tftpd-hpa uml-utilities \
-    nfs-kernel-server swig ninja-build libusb-1.0-0-dev python3-venv \
-    python3-setuptools python3-dev fdisk libgnutls28-dev iptables \
-    dosfstools bzip2
+  if [[ "$(cat /etc/os-release | grep ^ID= | cut -d '=' -f 2)" == "fedora" ]]; then
+    sudo dnf install -y git git-email glib2-devel libfdt-devel \
+      pixman-devel zlib-devel libnfs-devel libiscsi-devel libaio-devel \
+      bluez-libs-devel bzip2-devel cmake gcc-c++ libcap-devel \
+      libcap-ng-devel libcurl-devel gtk3-devel libibverbs-devel \
+      libjpeg-turbo-devel ncurses-devel numactl-devel librbd-devel \
+      librdmacm-devel cyrus-sasl-devel SDL2-devel SDL2_image-devel \
+      libseccomp-devel snappy-devel libssh2-devel libslirp-devel \
+      xen-devel lzo-devel valgrind xfsprogs-devel kpartx \
+      openssl-devel openssl-devel-engine net-tools python3-sphinx \
+      python3-sphinx_rtd_theme flex bison gmp-devel libmpc-devel \
+      dtc uboot-tools bc lzop make tftp-server nfs-utils swig ninja \
+      libusb1-devel python3-virtualenv python3-setuptools python3-devel \
+      util-linux gnutls-devel iptables dosfstools bzip2 \
+      qemu-user-static
+  else
+    # Should work for Ubuntu and Debian based
+    sudo apt -y install git libglib2.0-dev libfdt-dev libpixman-1-dev \
+      zlib1g-dev libnfs-dev libiscsi-dev git-email libaio-dev \
+      libbluetooth-dev libbrlapi-dev libbz2-dev libcap-dev \
+      libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev \
+      libjpeg8-dev libncurses5-dev libnuma-dev librbd-dev \
+      librdmacm-dev libsasl2-dev libsdl2-dev libseccomp-dev \
+      libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
+      libxen-dev liblzo2-dev valgrind xfslibs-dev kpartx libssl-dev \
+      net-tools python3-sphinx python3-sphinx-rtd-theme libsdl2-image-dev \
+      flex bison libgmp3-dev libmpc-dev device-tree-compiler u-boot-tools \
+      bc git libncurses5-dev lzop make tftpd-hpa uml-utilities \
+      nfs-kernel-server swig ninja-build libusb-1.0-0-dev python3-venv \
+      python3-setuptools python3-dev fdisk libgnutls28-dev iptables \
+      dosfstools bzip2 qemu-user-static binfmt-support
+  fi
   echo "                         ... done"
 
   echo "Downloading QEMU ..."
@@ -67,9 +85,7 @@ function build_qemu {
   ../configure --target-list=arm-softmmu \
     --enable-sdl \
     --enable-tools \
-    --enable-fdt \
-    --enable-libnfs \
-    --audio-drv-list=alsa
+    --enable-fdt
   make -j${NR_PROC}
 
   export PATH=$PWD:$PATH
