@@ -43,6 +43,7 @@ apt install -y --no-install-recommends \
     udev \
     iproute2 \
     iputils-ping \
+    linux-sysctl-defaults \
     vim \
     sudo
 # Enable systemd-networkd
@@ -80,7 +81,7 @@ EOF
   sudo umount ${ROOTFS_TMP}/dev
 
   # Archive
-  sudo tar cJvfp ubuntu-minimal-24.04.tar.xz -C ${ROOTFS_TMP} .
+  sudo tar cJvfp ubuntu-minimal-${UBUNTU_VER}.tar.xz -C ${ROOTFS_TMP} .
 }
 
 function prepare_sd_image {
@@ -126,7 +127,7 @@ EOF
   # Copy rootfs files
   sudo mkdir -p $ROOT_MNT
   sudo mount /dev/mapper/${loop_nr}p2 $ROOT_MNT
-  sudo tar xfvp ubuntu-minimal-24.04.tar.xz -C $ROOT_MNT
+  sudo tar xfvp ubuntu-minimal-${UBUNTU_VER}.tar.xz -C $ROOT_MNT
 
   # Copy kernel modules
   pushd ${PROJDIR_PATH}/linux/build_cubieboard

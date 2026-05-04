@@ -1,11 +1,11 @@
 #!/bin/bash
 
-QEMU_VER=10.2.0
+QEMU_VER=11.0.0
 TOOLCHAIN_VER=15.2.rel1
-UBOOT_VER=2026.01
-LINUX_VER=6.18.7
-UBUNTU_VER=24.04.3
-NR_PROC=8
+UBOOT_VER=2026.04
+LINUX_VER=7.0.3
+UBUNTU_VER=26.04
+NR_PROC=16
 
 # Global definitions
 PROJDIR_PATH=$PWD
@@ -59,16 +59,16 @@ function build_qemu {
       zlib1g-dev libnfs-dev libiscsi-dev git-email libaio-dev \
       libbluetooth-dev libbrlapi-dev libbz2-dev libcap-dev \
       libcap-ng-dev libcurl4-gnutls-dev libgtk-3-dev libibverbs-dev \
-      libjpeg8-dev libncurses5-dev libnuma-dev librbd-dev \
+      libjpeg8-dev libncurses-dev libnuma-dev librbd-dev \
       librdmacm-dev libsasl2-dev libsdl2-dev libseccomp-dev \
       libsnappy-dev libssh2-1-dev libvde-dev libvdeplug-dev \
       libxen-dev liblzo2-dev valgrind xfslibs-dev kpartx libssl-dev \
       net-tools python3-sphinx python3-sphinx-rtd-theme libsdl2-image-dev \
       flex bison libgmp3-dev libmpc-dev device-tree-compiler u-boot-tools \
-      bc git libncurses5-dev lzop make tftpd-hpa uml-utilities \
-      nfs-kernel-server swig ninja-build libusb-1.0-0-dev python3-venv \
-      python3-setuptools python3-dev fdisk libgnutls28-dev iptables \
-      dosfstools bzip2 qemu-user-static binfmt-support
+      bc git lzop make tftpd-hpa uml-utilities nfs-kernel-server swig \
+      ninja-build libusb-1.0-0-dev python3-venv python3-setuptools \
+      python3-dev fdisk libgnutls28-dev iptables dosfstools bzip2 \
+      qemu-user-binfmt binfmt-support
   fi
   echo "                         ... done"
 
@@ -150,7 +150,7 @@ EOF
 function build_linux {
   echo "Building linux ..."
   # Download
-  wget -c https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${LINUX_VER}.tar.xz
+  wget -c https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-${LINUX_VER}.tar.xz
   tar xf linux-${LINUX_VER}.tar.xz
   mv linux-${LINUX_VER} linux
 
@@ -176,6 +176,7 @@ function get_ubuntu {
 
   tee -a ${PROJDIR_PATH}/${ENVFILE} <<EOF
 # Ubuntu rootfs archive
+export UBUNTU_VER=${UBUNTU_VER}
 export UBUNTU_BASE=\${PROJDIR_PATH}/ubuntu-base-${UBUNTU_VER}-base-armhf.tar.gz
 EOF
   echo "                          ... done"
